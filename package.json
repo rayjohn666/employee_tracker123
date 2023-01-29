@@ -16,5 +16,13 @@
   "bugs": {
     "url": "https://github.com/rayjohn666/employee_tracker123/issues"
   },
-  "homepage": "https://github.com/rayjohn666/employee_tracker123#readme"
+  "homepage": "https://github.com/rayjohn666/employee_tracker123#readme",
+  "dependencies": {
+    "console.table": "^0.10.0",
+    "mysql2": "^3.0.1",
+    "save": "^2.9.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.33.0"
+  }
 }
