@@ -20,4 +20,10 @@ VALUES ("1st Cook, 30,000, 2")
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
 VALUES ("Rowan", "Atkinson", 2, 1),
        ("David", "Attenborough", 4, 7),
-       ("")     
+       ("Gary", "Oldman", 4, 8).
+       ("Ralph", "Fiennes", 3, 6),
+       ("Sean", "Connery", 3, 5),
+       ("Steven", "Segal", 1, 3),
+       ("Steve", "Austin", 1, 4),
+       ("John Claude", "Vandamme" 5, 9),
+       ("Arnold", "Schwarzenegger" 5, 10)     
