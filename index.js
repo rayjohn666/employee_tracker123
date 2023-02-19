@@ -4,6 +4,7 @@ const inquirer = require('inquirer');
 const cTable = require('console.table');
 const express = require('express');
 const { color, log, red, green, cyan, cyanBright } = require('console-log-colors');
+const mysql = require('mysql2');
 
 const PORT = process.env.PORT || 3001;
 const app = express();
@@ -56,7 +57,7 @@ basePrompt = () => {
 
         }
     ])
-}
+
 
 
 then(answer => {
@@ -87,7 +88,7 @@ then(answer => {
     }
 })
 
-
+}
 // Add Employee
 function addEmployee() {
     inquirer.prompt([{
@@ -182,5 +183,5 @@ function updateEmployeeRole() {
         });
     });
 }
-showBanner();
-init();
+// showBanner();
+// init();

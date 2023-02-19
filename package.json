@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -18,7 +18,10 @@
   },
   "homepage": "https://github.com/rayjohn666/employee_tracker123#readme",
   "dependencies": {
+    "console-log-colors": "^0.3.5",
     "console.table": "^0.10.0",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
     "mysql2": "^3.0.1",
     "save": "^2.9.0"
   },
