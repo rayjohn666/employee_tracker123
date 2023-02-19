@@ -2,8 +2,11 @@ const connections = require("./config/connections.js");
 const path = require('path');
 const inquirer = require('inquirer');
 const cTable = require('console.table');
+const express = require('express');
 const { color, log, red, green, cyan, cyanBright } = require('console-log-colors');
 
+const PORT = process.env.PORT || 3001;
+const app = express();
 
 connections.query(
     'SHOW DATABASES',
@@ -22,19 +25,74 @@ const connect = mysql.createConnection(
     },
 );
 
+app.use((req, res) => {
+    res.status(404).end();
+});
 
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+});
 
 basePrompt = () => {
     inquirer.prompt([
         {
             type: "list" ,
-            name:  "",
-            message:"" ,
-            choices: "" ,
+            name:  "choice",
+            message:"What option would you like to select?" ,
+            choices: [
+                'View All Departments',
+                'View All Roles',
+                'View All Employess',
+                'Add a Department',
+                'Add a Role',
+                'Add an Employee',
+                'Update an Employee Role'
+            ]
 
         }
     ])
 }
+
+
+
+.then(answer => {
+    if (answer.choice == 'View All Departments') {
+        viewDepartments();
+
+    } else if (answer.choice == 'View All Roles') {
+        viewRoles();
+
+    } else if (answer.choice == 'View All Employees') {
+        viewEmployee();
+
+    } else if (answer.choice == 'Add a Department') {
+        addDepartment();
+
+    } else if (answer.choice == 'Add a Role') {
+        addRole();
+
+    } else if (answer.choice == 'Add an Employee') {
+        addEmployee();
+
+    } else if (answer.choice == 'Update an Employee Role') {
+        updateEmployeeRole();
+
+    } else {
+        // quit();
+        init();
+    }
+})
+};
+
+
+
+
+
+
+
+
+
+
 //      console.log(`
 //      ===============
      
