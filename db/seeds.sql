@@ -1,29 +1,29 @@
 INSERT INTO department (department_name)
-VALUES  ("Squires")
-        ("Mess Cooks")
-        ("Knights")
-        ("Lords")
-        ("Artilley Men")
+VALUES  ("Squires"),
+        ("Mess Cooks"),
+        ("Knights"),
+        ("Lords"),
+        ("Artilley Men");
 
 INSERT INTO roles (title, salary, department_id)
-VALUES ("1st Cook, 30,000, 2")
-       ("Saucié, 40,000, 2")
-       ("Squire 1, 50,000, 1")
-       ("Squire 2, 60,000, 1")
-       ("Knight 1, 75,000, 3")
-       ("Knight 2, 85,000, 3")
-       ("Duke of Edinburough, 100,000, 4")
-       ("King of England, 1,000,000, 4")
-       ("Artillery Soldier, 60,000, 5")
-       ("Artillery Engineer, 70,000, 5")   
+VALUES ("1st Cook", 30000, 2),
+       ("Saucié", 40000, 2),
+       ("Squire 1", 50000, 1),
+       ("Squire 2", 60000, 1),
+       ("Knight 1", 75000, 3),
+       ("Knight 2", 85000, 3),
+       ("Duke of Edinburough", 100000, 4),
+       ("King of England", 1000000, 4),
+       ("Artillery Soldier", 60000, 5),
+       ("Artillery Engineer", 70000, 5);  
 
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
-VALUES ("Rowan", "Atkinson", 2, 1),
-       ("David", "Attenborough", 4, 7),
-       ("Gary", "Oldman", 4, 8).
-       ("Ralph", "Fiennes", 3, 6),
-       ("Sean", "Connery", 3, 5),
-       ("Steven", "Segal", 1, 3),
-       ("Steve", "Austin", 1, 4),
-       ("John Claude", "Vandamme" 5, 9),
-       ("Arnold", "Schwarzenegger" 5, 10)     
+VALUES ("Rowan", "Atkinson", 2, NULL),
+       ("David", "Attenborough", 4, 1),
+       ("Gary", "Oldman", 4, 2),
+       ("Ralph", "Fiennes", 3, 3),
+       ("Sean", "Connery", 3, 4),
+       ("Steven", "Segal", 1, 5),
+       ("Steve", "Austin", 1, 6),
+       ("John Claude", "Vandamme", 5, 7),
+       ("Arnold", "Schwarzenegger", 5, 8);     

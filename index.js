@@ -59,8 +59,7 @@ basePrompt = () => {
 }
 
 
-
-  then(answer => {
+then(answer => {
     if (answer.choice == 'View All Departments') {
         viewDepartments();
 
