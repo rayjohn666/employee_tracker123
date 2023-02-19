@@ -34,6 +34,11 @@ app.listen(PORT, () => {
 });
 
 basePrompt = () => {
+    console.log(`
+    ==================================================================================================
+    WELCOME to the employee tracker application. Use the arrow keys to navigate the prompted questions.
+    ==================================================================================================
+    `);
     inquirer.prompt([
         {
             type: "list" ,
@@ -55,15 +60,15 @@ basePrompt = () => {
 
 
 
-.then(answer => {
+  then(answer => {
     if (answer.choice == 'View All Departments') {
         viewDepartments();
 
-    } else if (answer.choice == 'View All Roles') {
-        viewRoles();
-
     } else if (answer.choice == 'View All Employees') {
         viewEmployee();
+
+    } else if (answer.choice == 'View All Roles') {
+        viewRoles();
 
     } else if (answer.choice == 'Add a Department') {
         addDepartment();
@@ -82,311 +87,101 @@ basePrompt = () => {
         init();
     }
 })
-};
 
 
+// Add Employee
+function addEmployee() {
+    inquirer.prompt([{
+        type: 'input',
+        name: 'first_name',
+        message: 'What is the first name of the employee you want to add?'
+    },
+    {
+        type: 'input',
+        name: 'last_name',
+        message: 'What is the their last name?',
+    },
+    {
+        type: 'choice',
+        name: 'role_id',
+        message: "What is the employee's role Id?",
+        
+    },
+    {
+        type: 'choice',
+        name: 'manager_id',
+        message: "What is the employees manager ID?",
+    },
+    ])
+        .then(answer => {
+            db.query("INSERT INTO employee SET ?;", { first_name: answer.first_name, last_name: answer.last_name, 
+                role_id: answer.role_id, manager_id: answer.manager_id }, (err, result) => {
 
+                if (err) {
+                    console.error(err);
+                    return;
+                }
+                console.log('Added to employees');
+                init();
+            })
+        });
+}
 
+//  Update Employee function 
+function updateEmployeeRole() {
+    db.query('SELECT * FROM employee', (err, res) => {
+        if (err) {
+            console.error(err);
+            return;
+        }
+// ------  creating variable list of employees to be updated ------
+        let listOfEmployees = res.map(employee => (
+                {
+                    name: employee.first_name + ' ' + employee.last_name,
+                    value: employee.id
+                }
+            ));
 
+        inquirer.prompt([
+            {
+                type: 'list',
+                name: 'id',
+                message: "Which employee's role would you like to update?",
+                choices: listOfEmployees
+            }
+        ]).then((id) => {
+            db.query('SELECT * from role', (err, res) => {
+                if (err) {
+                    console.error(err);
+                    return;
+                }
+                let listOfRoles = res.map(role => (
+                    {
+                        name: role.title,
+                        value: role.id
+                    }
+                ))
+                inquirer.prompt([
+                    {
+                        type: 'list',
+                        name: 'role_id',
+                        message: "Which role would you like to select?",
+                        choices: listOfRoles
+                    }
+                ]).then((answer) => {
+                    db.query('UPDATE employee SET role_id = ? WHERE id = ?', [answer.role_id, id.id], (err, res) => {
+                        if (err) {
+                            console.error(err);
+                            return;
+                        }
 
-
-
-
-
-//      console.log(`
-//      ===============
-     
-//      ===============
-//      `);
- 
-//      return inquirer.prompt([
-//          {
-//              type: 'input',
-//              name: 'name',
-//              message: 'What is the name of the employee? (Required)',
-//              validate: employeeName => {
-//                  if (employeeName) {
-//                      return true;
-//                  } else {
-//                      console.log('Please enter the name of the employee.');
-//                      return false;
-//                  }
-//              }
-//          },
-//          {
-//              type: 'input',
-//              name: 'employeeId',
-//              message: 'Enter your employee ID (Required)',
-//              validate: employeeId => {
-//                  if (employeeId) {
-//                      return true;
-//                  } else {
-//                      console.log('Please enter your employee ID.');
-//                      return false;
-//                  }
-//              }
-//          },
-//          {
-//              type: 'input',
-//              name: 'email',
-//              message: 'Enter your email. (Required)',
-//              validate: email => {
-//                  if (email) {
-//                      return true;
-//                  } else {
-//                      console.log('Please enter email.');
-//                      return false;
-//                  }
-//              }
-//          },
-     
-//      ]).then(answers => {
-//          console.log(answers);
-//          const employee = new Employee(answers.name, answers.employeeId, answers.email);
-//          employee.type = "employee";
-//          teamMembers.push(employee);
-//          promptMenu();
-//      })
-//  };
- 
-//  const promptManager = () => {
-//      console.log(`
-//      ================
-//      Add a Manager...
-//      ================
-//      `);
-//      return inquirer.prompt ([
-//          {
-//              type: 'input',
-//              name: 'name',
-//              message: 'What is your name? (Required)',
-//              validate: nameInput => {
-//                  if (nameInput) {
-//                      return true;
-//                  } else {
-//                      console.log('Please enter your name!');
-//                      return false;
-//                  }
-//              }
-//          },
-//          {
-//              type: 'input',
-//              name: 'employeeId',
-//              message: 'Enter your employee ID (Required)',
-//              validate: employeeId => {
-//                  if (employeeId) {
-//                      return true;
-//                  } else {
-//                      console.log('Please enter your employee ID.');
-//                      return false;
-//                  }
-//              }
-//          },
-//          {
-//              type: 'input',
-//              name: 'email',
-//              message: 'Enter your emailaddress... (Required)',
-//              validate: email => {
-//                  if (email) {
-//                      return true;
-//                  } else {
-//                      console.log('Please enter your email address.');
-//                      return false;
-//                  }
-//              }
-//          },
-//          {
-//          type: 'input',
-//          name: 'officeNumber',
-//          message: 'Enter the office Number. (Required)',
-//          validate: officeNumber => {
-//              if (officeNumber) {
-//                  return true;
-//              } else {
-//                  console.log('Please enter the Office number');
-//                  return false;
-//              }
-//          }
-     
-//          },
-         
-//      ]).then(answers => {
-//          console.log (answers);
-//          const manager = new Manager(answers.name, answers.employeeId, answers.email, answers.gihubUsername, answers.officeNumber);
-//          manager.type = "manager";
-//          teamMembers.push(manager);
-//          promptMenu();
-//      })
-//  };
- 
-//  const promptMenu = () => {
-//      console.log(`
-//      ==================================================
-//      Add a team Member, or Finish building your team...
-//      ==================================================
-//      `);
-//      return inquirer.prompt([
-//          {
-//              type: 'list',
-//              name: 'menu',
-//              message: 'Select which option you would like to continue with...',
-//              choices: ['add an engineer', 'add an intern', 'add a manager' , 'finish building my team']
-//          }])
-//          .then(userChoice => {
-//              switch (userChoice.menu) {
-//                  case "add an engineer":
-//                      promptEngineer();
-//                      break;
-//                  case "add an intern":
-//                      promptIntern();
-//                      break;
-//                  case "add a manager":
-//                      promptManager();
-//                      break;
-//                  default:
-//                      buildTeam();    
- 
-//              }
-//          });
-//  };
- 
-//  const promptEngineer = () => {
-//      console.log(`
-//      ===============
-//      Add a New Engineer
-//      ===============
-//      `);
- 
-//      return inquirer.prompt([
-//          {
-//              type: 'input',
-//              name: 'name',
-//              message: 'What is the name of engineer? (Required)',
-//              validate: engineerName => {
-//                  if (engineerName) {
-//                      return true;
-//                  } else {
-//                      console.log('Please enter the name of engineer.');
-//                      return false;
-//                  }
-//              }
-//          },
-//          {
-//              type: 'input',
-//              name: 'employeeId',
-//              message: 'Enter your employee ID (Required)',
-//              validate: employeeId => {
-//                  if (employeeId) {
-//                      return true;
-//                  } else {
-//                      console.log('Please enter your employee ID.');
-//                      return false;
-//                  }
-//              }
-//          },
-//          {
-//              type: 'input',
-//              name: 'email',
-//              message: 'Enter your email. (Required)',
-//              validate: email => {
-//                  if (email) {
-//                      return true;
-//                  } else {
-//                      console.log('Please enter email.');
-//                      return false;
-//                  }
-//              }
-//          },
-//          {
-//              type: 'input',
-//              name: 'githubUsername',
-//              message: 'Enter your Github username. (Required)',
-//              validate: githubUsername => {
-//                  if (githubUsername) {
-//                      return true;
-//                  } else {
-//                      console.log('Please enter your Github username.');
-//                      return false;
-//                  }
-//              }
-//          },
-//      ]).then(answers => {
-//          console.log(answers);
-//          const engineer = new Engineer(answers.name, answers.employeeId, answers.email, answers.githubUsername);
-//          engineer.type = "engineer";
-//          teamMembers.push(engineer);
-//          promptMenu();
-//      })
- 
-     
-//  };
- 
-//  const promptIntern = () => {
-//      console.log(`
-//      ===============
-//      Add a New Intern
-//      ===============
-//      `);
- 
-//      return inquirer.prompt([
-//          {
-//              type: 'input',
-//              name: 'name',
-//              message: 'What is the name of intern? (Required)',
-//              validate: internName => {
-//                  if (internName) {
-//                      return true;
-//                  } else {
-//                      console.log('Please enter the name of engineer.');
-//                      return false;
-//                  }
-//              }
-//          },
-//          {
-//              type: 'input',
-//              name: 'employeeId',
-//              message: 'Enter your employee ID (Required)',
-//              validate: employeeId => {
-//                  if (employeeId) {
-//                      return true;
-//                  } else {
-//                      console.log('Please enter your employee ID.');
-//                      return false;
-//                  }
-//              }
-//          },
-//          {
-//              type: 'input',
-//              name: 'email',
-//              message: 'Enter your email. (Required)',
-//              validate: email => {
-//                  if (email) {
-//                      return true;
-//                  } else {
-//                      console.log('Please enter email.');
-//                      return false;
-//                  }
-//              }
-//          },
-//          {
-//              type: 'input',
-//              name: 'school',
-//              message: 'Enter your school name. (Required)',
-//              validate: school => {
-//                  if (school) {
-//                      return true;
-//                  } else {
-//                      console.log('Please enter your school name.');
-//                      return false;
-//                  }
-//              }
-//          }
- 
-//      ]).then(answers => {
-//          console.log(answers);
-//          const intern = new Intern(answers.name, answers.employeeId, answers.email, answers.school);
-//          intern.type = "intern";
-//          teamMembers.push(intern);
-//          promptMenu();
-//      })
-//  };
+                        console.log("Employee's role Updated");
+                        init();
+                    });
+                });
+            });
+        });
+    });
+}
+showBanner();
+init();
