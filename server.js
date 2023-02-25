@@ -4,6 +4,7 @@ const inquirer = require('inquirer');
 const cTable = require('console.table');
 const { color, log, red, green, cyan, cyanBright } = require('console-log-colors');
 const mysql = require('mysql2');
+const db = require('./config/connections.js')
 
 basePrompt = () => {
     console.log(`
@@ -19,7 +20,7 @@ basePrompt = () => {
             choices: [
                 'View All Departments',
                 'View All Roles',
-                'View All Employess',
+                'View All Employees',
                 'Add a Department',
                 'Add a Role',
                 'Add an Employee',
@@ -59,6 +60,24 @@ basePrompt = () => {
     }
 })
 
+}
+// Add Department
+function addDepartment() {
+    inquirer.prompt({
+        type: 'input',
+        name: 'department',
+        message: 'What is the department name of the department you want to add?'
+    })
+    .then(answer => {
+        db.query("INSERT INTO department SET ?", { department_name: answer.department }, (err, result) => {
+            if (err) {
+                console.error(err);
+                return;
+            }
+            console.log('Department added.');
+            init();
+        });
+    });
 }
 // Add Employee
 function addEmployee() {
@@ -157,3 +176,41 @@ function updateEmployeeRole() {
 // showBanner();
 // init();
 basePrompt()
+function init() {
+    basePrompt();
+  }
+
+init();
+
+function viewDepartments() {
+    db.query('SELECT * FROM department', (err, rows) => {
+      if (err) {
+        console.error(err);
+        return;
+      }
+      console.table(rows);
+      init();
+    });
+  }
+
+  function viewRoles() {
+    db.query('SELECT * FROM roles', (err, rows) => {
+      if (err) {
+        console.error(err);
+        return;
+      }
+      console.table(rows);
+      init();
+    });
+  }
+
+  function viewEmployee() {
+    db.query('SELECT * FROM employee', (err, rows) => {
+      if (err) {
+        console.error(err);
+        return;
+      }
+      console.table(rows);
+      init();
+    });
+  }
