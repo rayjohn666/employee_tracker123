@@ -2,37 +2,8 @@ const connections = require("./config/connections.js");
 const path = require('path');
 const inquirer = require('inquirer');
 const cTable = require('console.table');
-const express = require('express');
 const { color, log, red, green, cyan, cyanBright } = require('console-log-colors');
 const mysql = require('mysql2');
-
-const PORT = process.env.PORT || 3001;
-const app = express();
-
-connections.query(
-    'SHOW DATABASES',
-    function(err, results, fields) {
-        console.log(results);
-        console.log(fields);
-    }
-);
-
-const connect = mysql.createConnection(
-    {
-        database: process.env.DB_NAME,
-        user: process.env.DB_USER,
-        password: process.env.DB_PASSWORD,
-        host: process.env.DB_HOST
-    },
-);
-
-app.use((req, res) => {
-    res.status(404).end();
-});
-
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
 
 basePrompt = () => {
     console.log(`
@@ -60,7 +31,7 @@ basePrompt = () => {
 
 
 
-then(answer => {
+.then(answer => {
     if (answer.choice == 'View All Departments') {
         viewDepartments();
 
@@ -185,3 +156,4 @@ function updateEmployeeRole() {
 }
 // showBanner();
 // init();
+basePrompt()
