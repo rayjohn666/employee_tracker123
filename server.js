@@ -6,6 +6,7 @@ const { color, log, red, green, cyan, cyanBright } = require('console-log-colors
 const mysql = require('mysql2');
 const db = require('./config/connections.js')
 
+
 basePrompt = () => {
     console.log(`
     ==================================================================================================
@@ -46,7 +47,7 @@ basePrompt = () => {
         addDepartment();
 
     } else if (answer.choice == 'Add a Role') {
-        addRole();
+        addRoles();
 
     } else if (answer.choice == 'Add an Employee') {
         addEmployee();
@@ -79,6 +80,29 @@ function addDepartment() {
         });
     });
 }
+
+// Add Role
+
+function addRoles() {
+    inquirer.prompt({
+        type: 'input',
+        name: 'roles',
+        message: 'What are the roles you want to add?'
+    })
+    .then(answer => {
+        db.query("INSERT INTO role SET ?", { role_id: answer.role_id }, (err, result) => {
+            if (err) {
+                console.error(err);
+                return;
+            }
+            console.log('role added.');
+            init();
+        });
+    });
+}
+
+
+
 // Add Employee
 function addEmployee() {
     inquirer.prompt([{
@@ -176,8 +200,10 @@ function updateEmployeeRole() {
 // showBanner();
 // init();
 basePrompt()
+addRoles
 function init() {
     basePrompt();
+
   }
 
 init();
