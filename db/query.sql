@@ -1,17 +1,17 @@
 CREATE TABLE employee_info (
 );
 
-INSERT INTO employee_info
+-- INSERT INTO employee_info
 SELECT
-  e.id,
-  e.first_name,
-  e.last_name,
-  r.title,
-  d.name AS department,
-  r.salary,
-  CONCAT(m.first_name, ' ', m.last_name) AS manager
-FROM employee e
-JOIN role r ON e.role_id = r.id
-JOIN department d ON r.department_id = d.id
-LEFT JOIN employee m ON e.manager_id = m.id;
+  employee.id,
+  employee.first_name,
+  employee.last_name,
+  roles.title,
+  department.name AS department,
+  roles.salary,
+  CONCAT(manager.first_name, ' ', manager.last_name) AS manager
+FROM employee 
+JOIN roles ON employee.role_id = roles.id
+JOIN department ON roles.department_id = department.id
+LEFT JOIN employee ON employee.manager_id = manager.id;
 

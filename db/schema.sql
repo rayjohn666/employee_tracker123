@@ -3,18 +3,18 @@ CREATE DATABASE employee_db;
 
 USE employee_db;
 
-Create TABLE department (
+CREATE TABLE department (
     id INT AUTO_INCREMENT PRIMARY KEY,
    department_name VARCHAR(30) NOT NULL
 );
 
+
 CREATE TABLE roles (
-  id INT NOT NULL AUTO_INCREMENT,
-  title VARCHAR(50) NOT NULL,
-  salary DECIMAL(10,2) NOT NULL,
+  role_id INT AUTO_INCREMENT PRIMARY KEY,
+  title VARCHAR(255) NOT NULL,
+  salary INT NOT NULL,
   department_id INT NOT NULL,
-  PRIMARY KEY (id),
-  FOREIGN KEY (department_id) REFERENCES department(id)
+  FOREIGN KEY (department_id) REFERENCES department(department_id)
 );
 
 CREATE TABLE employee (
