@@ -25,6 +25,7 @@ THEN I am prompted to select an employee to update and their new role and this i
 <h2>🛠️ Installation Steps:</h2>
 
 <p>1. Download the repo - https://github.com/rayjohn666/employee_tracker123.git</p>
+<p>2. open integrated terminal and run npm start, follow the prompted questions. </p>
 
 <h2>🍰 Contribution Guidelines:</h2>
 
